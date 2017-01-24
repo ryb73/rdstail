@@ -147,9 +147,11 @@ func Watch(r *rds.RDS, db string, rate time.Duration, callback func(string) erro
 	t := time.NewTicker(rate)
 	empty := 0
 	const checkLogfileRate = 4
+	fmt.Println("starting watch loop")
 	for {
 		select {
 		case <-t.C:
+			fmt.Println("tick");
 			// If the logfile tail was empty n times, check for a newer log file
 			if empty >= checkLogfileRate {
 				empty = 0
