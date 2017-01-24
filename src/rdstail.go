@@ -207,6 +207,7 @@ func FeedPapertrail(r *rds.RDS, db string, rate time.Duration, papertrailHost, a
 	// watch with callback writing to the connection
 	buf := bytes.Buffer{}
 	return Watch(r, db, rate, func(lines string) error {
+		fmt.Printf("watched %s", lines);
 		timestamp := time.Now().UTC().Format("2006-01-02T15:04:05")
 		buf.Reset()
 		buf.WriteString(timestamp)
