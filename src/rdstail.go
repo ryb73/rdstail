@@ -187,6 +187,7 @@ func Watch(r *rds.RDS, db string, rate time.Duration, callback func(string) erro
 }
 
 func FeedPapertrail(r *rds.RDS, db string, rate time.Duration, papertrailHost, app, hostname string, stop <-chan struct{}) error {
+	fmt.Println("feeding papertrail")
 	nameSegment := fmt.Sprintf(" %s %s: ", hostname, app)
 
 	// Establish TLS connection with papertrail
