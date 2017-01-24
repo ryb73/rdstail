@@ -130,6 +130,7 @@ func Tail(r *rds.RDS, db string, numLines int64) error {
 func Watch(r *rds.RDS, db string, rate time.Duration, callback func(string) error, stop <-chan struct{}) error {
 	// Periodically check for new log files (unless there is a way to detect the file is done being written to)
 	// Poll that log file, retaining the marker
+	fmt.Println("3")
 	logFile, err := getMostRecentLogFile(r, db)
 	if err != nil {
 		return err
@@ -138,11 +139,15 @@ func Watch(r *rds.RDS, db string, rate time.Duration, callback func(string) erro
 		return errors.New("no log files")
 	}
 
+	fmt.Println("4")
+
 	// Get a marker for the end of the log file by requesting the most recent line
 	lines, marker, err := tailLogFile(r, db, *logFile.LogFileName, 1, "")
 	if err != nil {
 		return err
 	}
+
+	fmt.Println("5")
 
 	t := time.NewTicker(rate)
 	empty := 0
@@ -199,6 +204,8 @@ func FeedPapertrail(r *rds.RDS, db string, rate time.Duration, papertrailHost, a
 		return errors.New("failed to parse papertrail root certificate")
 	}
 
+	fmt.Println("1")
+
 	conn, err := tls.Dial("tcp", papertrailHost, &tls.Config{
 		RootCAs: roots,
 	})
@@ -206,6 +213,8 @@ func FeedPapertrail(r *rds.RDS, db string, rate time.Duration, papertrailHost, a
 		return err
 	}
 	defer conn.Close()
+
+	fmt.Println("2")
 
 	// watch with callback writing to the connection
 	buf := bytes.Buffer{}
