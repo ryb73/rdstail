@@ -204,7 +204,7 @@ func FeedPapertrail(r *rds.RDS, db string, rate time.Duration, papertrailHost, a
 		return errors.New("failed to parse papertrail root certificate")
 	}
 
-	fmt.Println("1")
+	fmt.Printf("1 %d %s", len(papertrailPEM), papertrailHost)
 
 	conn, err := tls.Dial("tcp", papertrailHost, &tls.Config{
 		RootCAs: roots,
